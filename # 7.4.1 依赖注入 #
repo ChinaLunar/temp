@@ -1,0 +1,45 @@
+# 7.4.1 依赖注入 #
+依赖注入（Dependency injection，DI）是通过对象定义其依赖的过程，也就是说，一个对象所需要的其他对象，仅通过构造方法传参、工厂方法传参、或者在对象被构造方法实例化、被工厂方法实例化之后通过 setter 赋值的方式传给此对象。而容器负责在实例化对象之后，为对象 *注入* 这些依赖。由于该过程与对象直接自行使用类的构造方法或`Service Locator`模式控制依赖实例化或定位的过程相比，从根本上而言是相反的，所以被称为控制反转（Inversion of Control，IoC）
+使用 DI 原理的代码更加简洁，解耦也更加彻底。对象不查找依赖，也不知道依赖的位置和类型。这样一来，类变得更加易于测试，尤其对象依赖的是接口或抽象基类的时候，能够模仿具体的实现进行单元测试
+DI 存在两种主要的变种：  * 基于构造器的依赖注入  * 基于 setter 的依赖注入
+## 基于构造器的依赖注入 ##
+基于构造器的依赖注入由容器触发完成，并传入作为依赖的参数。这与使用指定的参数调用静态工厂方法构造 bean 的方式几乎相等，并且在当前的介绍中对构造方法和静态工厂方法的参数的处理是相似的。以下实例展示了一个只能使用构造器依赖注入方式的类。请注意该类没有任何特殊性，只是一个 POJO 并且没有依赖任何容器的接口、基类或注解。
+```xmlpublic class SimpleMovieLister {
+    // SimpleMovieLister 依赖于 MovieFinder    private MovieFinder movieFinder;
+    // 准备能让 Spring 注入 MovieFinder 依赖的构造器    public SimpleMovieLister(MovieFinder movieFinder) {        this.movieFinder = movieFinder;    }
+    // 省略实际使用被注入依赖 MovieFinder 的业务逻辑
+}```
+### 构造器传参 ###
+在使用含有参数的构造器时需要进行参数匹配。如果 bean 定义的构造器参数不含有潜在的歧义，那么 bean 定义中构造器的参数属性应当和使用构造器实例化类时的参数顺序一致。例如：
+```javapackage x.y;
+public class Foo {
+    public Foo(Bar bar, Baz baz) {        // ...    }
+}```
+不存在潜在的歧义，假设 Bar 和 Baz 类没有继承关系。那么如下的配置可以正常执行，并且开发者不需要在`<constructor-arg/>`元素中明确地指明构造器参数的顺序和类型
+```xml<beans>    <bean id="foo" class="x.y.Foo">        <constructor-arg ref="bar"/>        <constructor-arg ref="baz"/>    </bean>
+    <bean id="bar" class="x.y.Bar"/>
+    <bean id="baz" class="x.y.Baz"/></beans>```
+当被引用 bean 的类型已知的时候，可以根据类型匹配参数（如上方示例）。但是当使用简单的值作为参数的时候，例如`<value>true</value>`，Spring 无法确定值得具体类型，从而无法匹配参数，例如：
+```javapackage examples;
+public class ExampleBean {
+    // Number of years to calculate the Ultimate Answer    private int years;
+    // The Answer to Life, the Universe, and Everything    private String ultimateAnswer;
+    public ExampleBean(int years, String ultimateAnswer) {        this.years = years;        this.ultimateAnswer = ultimateAnswer;    }
+}```
+在以下示例中，通过`type`属性指明构造器参数的类型，从而让容器可以根据类型匹配值，例如：
+```xml<bean id="exampleBean" class="examples.ExampleBean">    <constructor-arg type="int" value="7500000"/>    <constructor-arg type="java.lang.String" value="42"/></bean>```
+使用`index`属性可以明确指明构造器参数的顺序。例如：
+```xml<bean id="exampleBean" class="examples.ExampleBean">    <constructor-arg index="0" value="7500000"/>    <constructor-arg index="1" value="42"/></bean>```
+使用`index`属性还可以额外解决构造器参数类型相同，不能够根据类型进行参数匹配的问题。需要注意的是：参数的顺序从 0 开始。
+开发者还可以使用构造器参数名消除歧义：
+```xm<bean id="exampleBean" class="examples.ExampleBean">    <constructor-arg name="years" value="7500000"/>    <constructor-arg name="ultimateAnswer" value="42"/></bean>```
+但需要注意的是：如果希望使用构造器参数名匹配参数的功能，开发者的代码在编译时必须添加 debug 标志，这样 Spring 才能够从构造器中查询参数名；如果开发者无法使用（或不想使用） debug 标志，可以使用 JDK 的 [`@ConstructorProperties`][constructorProperties]注解明确指出构造器的参数名，例如：
+```javapackage examples;
+public class ExampleBean {
+    // Fields omitted
+    @ConstructorProperties({"years", "ultimateAnswer"})    public ExampleBean(int years, String ultimateAnswer) {        this.years = years;        this.ultimateAnswer = ultimateAnswer;    }
+}```
+## 基于 setter 的依赖注入 ##
+
+
+<!-- 链接 -->[constructorProperties]: http://download.oracle.com/javase/6/docs/api/java/beans/ConstructorProperties.html
