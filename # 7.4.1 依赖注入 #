@@ -161,11 +161,20 @@ public class SimpleMovieLister {
 
 Spring 团队通常建议构造器注入作为将应用组件实现为不可变对象并确保必要的依赖非`null`的方式。而且构造器注入方式总是为客户端（调用方）代码返回完全初始化的组件。需要注意的是，有大量构造器参数是一种代码坏味道，一个类在实现时有过多的职责就应该进行重构从而分离关注点
 
-setter 注入方式应当是可选依赖的首选，并在类的内部为属性赋相应的默认值。否则，就需要在使用此依赖的所有位置进行非空检查。setter 注入的好处之一就是，setter 方法使得类的属性能够在实例化之后被重配置或重注入。
+setter 注入方式应当是注入可选依赖的首选方式。其能够在类的内部为属性赋相应的默认值，否则，就需要在使用此依赖的所有位置进行非空检查。setter 注入的好处之一就是，setter 方法使得类的属性能够在实例化之后被重配置或重注入。因此通过[JMS MBeans][jmx]进行管理就成了 setter 注入的必要场景
+
+对于特殊的类来说使用构造器注入方式是开发者最好的选择（操作对开发者不开源的第三方类库时非常有用）。例如，对于没有暴露 setter 方法的第三方来说，构造器注入是唯一能够提供依赖的方式
 
 
 
+## 依赖处理过程 ##
 
+容器按照如下过程处理 bean 的依赖：
+
+  * 使用描述 beans 的配置元信息创建并初始化`AppicationContext`。可以指明配置元信息是 XML、Java 代码或者注解
+  * 当 bean 被实际创建的时候，为 bean 提供所需要的依赖：bean 的属性，构造器参数，工厂方法的参数（如果开发者使用工厂方法初始化）
+  * 每个属性或者构造器参数都是一个实际定义的数值，或者对容器中其他 bean 的引用
+  * 
 
 
 
@@ -193,3 +202,4 @@ setter 注入方式应当是可选依赖的首选，并在类的内部为属性�
 
 <!-- 链接 -->
 [constructorProperties]: http://download.oracle.com/javase/6/docs/api/java/beans/ConstructorProperties.html
+[jmx]: http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#jmx "《31 JMX》"
