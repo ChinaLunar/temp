@@ -1,0 +1,22 @@
+# 7.5.1 singleton 作用域 #
+
+singleton 作用于下的 bean 只有一个共享的实例，并且通过 id 对该 bean 的所有请求都会获取到 Spring 容器返回的指定的唯一实例
+
+也就是说，当开发者将 bean 的作用于定义为 singleton 的时候，Spring IoC 容器根据 bean 定义 *确实* 只会创建唯一的实例。这个单独的实例会存储在 singleton bean 的缓存之中，并且 *之后* 对该 bean 的 *所有的请求和引用* 都只会返回这个缓存的对象
+
+![singleton_pic][singleton_pic]
+
+Spring 中 singleton bean 的概念和在 Gang of Four（GoF）模式书中定义的单例模式是不同的。GoF 的单例模式中对对象的作用域进行硬编码，从而保证每个`ClassLoader`中有且仅有特定 class 的一个实例。而 singleton bean 是指在独立的 Spring 容器中对特定的类定义且仅定义一个 bean 与之对应，然后 Spring 容器会为该 bean 实例化且仅实例化一个对象。 *`singleton`作用于是 Spring 的默认作用域。* 按照如下示例，开发者可以在 XML 中定义一个 bean：
+
+```xml
+<bean id="accountService" class="com.foo.DefaultAccountService"/>
+
+<!-- 和以下配置是等价的，但是比较繁琐（singleton 作用于是默认的） -->
+<bean id="accountService" class="com.foo.DefaultAccountService" scope="singleton"/>
+```
+
+
+
+<!-- 链接 -->
+
+[singleton_pic]: ./pic/singleton.png
