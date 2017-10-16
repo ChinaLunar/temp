@@ -1,0 +1,32 @@
+# 7.5.2 prototype 作用域 #
+
+prototype 作用域的 bean 在部署之后，每次对该 bean 的请求都会 *创建并返回新的 bean 实例*。这意味着，该 bean 每次注入到其他 bean 或者通过`getBean()`方法向容器请求的时候都会创建新的实例。作为规范，prototype 作用域的用于持有状态的 bean，而无状态的 bean 使用 singleton 作用域
+
+下图对 Spring prototype 作用域进行说明。将 DAO 对象定义为`prototype`的配置并不是很典型，因为典型的 DAO 并不含有会话状态；使用下图只是因为能够重用 singleton 一章相应图片中的很多元素
+
+![prototype_pic][prototype_pic]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 链接 -->
+
+[prototype_pic]: ./pic/prototype.png
