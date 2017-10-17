@@ -1,0 +1,19 @@
+*接续*
+
+相比于其他作用域而言，Spring 无法管理 prototype bean 的完整生命周期：容器实例化、配置、构造 prototype 作用域的对象，然后将其交付给发起请求的代码，之后就不再持有该对象的引用。所以，虽然 *初始化* 生命周期回调方法会忽略作用域的影响在所有对象上被调用，但是对于 prototype 作用域而言，通过配置指定的 *销毁* 生命周期回调则不会被调用。请求 prototype bean 的代码必须负责清理并释放 bean 所持有的系统资源。如果希望 Spring 容器释放 prototype bean 所持有的资源，可以尝试使用自定义的[`BeanPostProcessor`][processor]（该 processor 可以持有那些需要被释放的 bean 的引用）
+
+在某些方面，对于 prototype bean 而言，Spring 容器只是替代了 Java 中的`new`关键字。所有 prototype bean 在被实例化之后其生命周期就完全交给发起请求的代码处理。（Spring 容器中 bean 生命周期的详细内容请参见[《7.6.1 生命周期回调》][lifecycle]）
+
+
+
+
+
+
+
+
+
+
+
+
+[processor]: http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#beans-factory-extension-bpp "《7.8.1 使用 BeanPostProcess 定制 bean》"
+[lifecycle]: http://docs.spring.io/spring/docs/current/spring-framework-reference/htmlsingle/#beans-factory-lifecycle "《7.6.1 生命周期回调》"
