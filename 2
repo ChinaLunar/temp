@@ -1,5 +1,0 @@
-# 7.5.3 持有 prototype bean 依赖的 singleton bean #
-
-当开发者使用持有 prototype bean 依赖的 singleton bean 的时候，需要注意的是 *singleton bean 的依赖是初始化的时候注入的*。所以当开发者将 prototype bean 通过依赖注入的方式注入给 singleton bean 的时候，会给 singleton bean 注入一个新实例化的对象，并且仅注入这一次。
-
-然而，如果开发者希望 singleton bean 在每次运行的时候都能够获取到新实例化的 prototype bean。开发者不能够使用依赖注入的方式将 prototype bean 注入给 singleton bean，
