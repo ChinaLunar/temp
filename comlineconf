@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<comline>
+
+    <!-- 整合 Spring -->
+    <context:spring path="classpath:springConfig/dispatcher-servlet.xml" />
+
+    <!-- 国际化支持 -->
+    <context:local local="zh_CN" tranfile="文件路径" />
+
+    <!-- 处理器定义 -->
+    <context:handlers>
+
+        <!-- 自定义处理器1：要么是静态方法，要么类必须有无参构造器 -->
+        <handler id="处理器 id" method="类名::静态方法">
+            <!-- 定义处理器参数 -->
+            <property id="参数名" type="参数类型：int、double、string、boolean、file" tip="注释，只用于显示说明" ref="如果有 Spring，可以使用 ref 指明要引用的 bean" />
+            <property id="参数名" type="参数类型" tip="注释，只用于显示说明" />
+            <property id="参数名" type="参数类型" tip="注释，只用于显示说明" />
+        </handler>
+
+        <!-- 自定义处理器2：如果有 Spring 支持就使用 ref 指明要调用的类 -->
+        <handler id="处理器 id" method="实例方法" ref="如果有 Spring 可以使用 ref 指明要引用的 bean">
+            <property id="参数名" type="参数类型：int、double、string、boolean、file" tip="注释，只用于显示说明" ref="如果有 Spring，可以使用 ref 指明要引用的 bean" />
+            <property id="参数名" type="参数类型" tip="注释，只用于显示说明" />
+            <property id="参数名" type="参数类型" tip="注释，只用于显示说明" />
+        </handler>
+
+    </context:handlers>
+
+    <!-- 菜单定义：用于交互模式 -->
+    <context:menu>
+
+        <!-- 菜单项写法1：菜单项就是处理器，引用处理器 -->
+        <item index="0" name="菜单项名称，只用于显示说明" tip="注释，只用于显示说明" handler="处理器 id" />
+
+        <!-- 菜单项写法2：菜单项就是处理器，内含处理器 -->
+        <item index="1" name="菜单项名称，只用于显示说明" tip="注释，只用于显示说明">
+            <handler id="处理器 id" method="方法名" ref="如果有 Spring，可以使用 ref 指明要引用的 bean">
+                <param id="参数名" type="参数类型：int、double、string、boolean、file" tip="注释，只用于显示说明" ref="如果有 Spring，可以使用 ref 指明要引用的 bean" />
+                <param id="参数名" type="参数类型" tip="注释，只用于显示说明" />
+                <param id="参数名" type="参数类型" tip="注释，只用于显示说明" />
+            </handler>
+        </item>
+
+        <!-- 菜单项写法3：嵌套菜单，含有子菜单 -->
+        <item-groups index="2" name="calculate taketime" explain="注释">
+            <!-- 空菜单项没有任何相应，如果选中，仅输出提示信息，然后返回上级菜单 -->
+            <item index="1" name="abc" explain="abc" />
+        </item-groups>
+
+    </context:menu>
+
+    <!-- 参数定义：用于命令模式 -->
+    <context:cli>
+
+        <!-- 单个选项：引用 handler -->
+        <option id="完整的参数名" flag="参数缩写" require="true/false，是否必选" hasagr="是否有参数"
+            type="如果有参数，参数类型：int、double、string、boolean、file" tip="注释，只用于显示说明" handler="处理器 id" />
+
+        <!-- 选项组：引用 handler（如果组内元素互斥， -->
+        <option-group id="参数组 id" exclusive="组内选项是否互斥" handler="组内元素不互斥才可以使用，处理器 id">
+            <option id="完整的参数名" flag="参数缩写" require="true/false，是否必选" hasagr="是否有参数"
+                type="如果有参数，参数类型：int、double、string、boolean、file" tip="注释，只用于显示说明" handler="组内选项互斥的时候才可以使用，处理器 id" />
+        </option-group>
+
+    </context:cli>
+
+</comline>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
