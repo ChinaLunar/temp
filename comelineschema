@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.comline.com.cn" xmlns="http://www.comline.com.cn"
+    elementFormDefault="qualified">
+
+    <xsd:group name="param">
+        <xsd:sequence>
+            <xsd:element name="param" minOccurs="0" maxOccurs="unbounded">
+                <xsd:complexType>
+                    <xsd:attribute name="id" type="xsd:string" />
+                    <xsd:attribute name="abbr" type="xsd:string" />
+                    <xsd:attribute name="require" type="xsd:string" />
+                    <xsd:attribute name="tip" type="xsd:string" />
+                    <xsd:attribute name="type" type="xsd:string" />
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:group>
+
+    <xsd:group name="item">
+        <xsd:sequence>
+            <xsd:element name="item" minOccurs="0" maxOccurs="unbounded">
+                <xsd:complexType>
+                    <xsd:attribute name="name" type="xsd:string" />
+                    <xsd:attribute name="tip" type="xsd:string" />
+                    <xsd:attribute name="handler" type="xsd:string" />
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:group>
+
+    <xsd:element name="comline">
+        <xsd:complexType>
+            <xsd:all>
+
+                <xsd:element name="spring" minOccurs="0" maxOccurs="1">
+                </xsd:element>
+
+                <xsd:element name="local" minOccurs="0" maxOccurs="1">
+                </xsd:element>
+
+                <xsd:element name="parameter" minOccurs="0" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+
+                            <xsd:group ref="param"></xsd:group>
+
+                            <xsd:element name="param-grp" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+
+                                        <xsd:group ref="param"></xsd:group>
+
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+
+                <xsd:element name="handlers" minOccurs="0" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+
+                            <xsd:element name="handler" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+
+                                        <xsd:element name="property" minOccurs="0" maxOccurs="unbounded">
+                                            <xsd:complexType>
+
+                                                <xsd:attribute name="cmd" type="xsd:string"></xsd:attribute>
+                                                <xsd:attribute name="type" type="xsd:string"></xsd:attribute>
+                                                <xsd:attribute name="tip" type="xsd:string"></xsd:attribute>
+                                                <xsd:attribute name="default" type="xsd:string"></xsd:attribute>
+
+                                            </xsd:complexType>
+                                        </xsd:element>
+
+                                    </xsd:sequence>
+                                    <xsd:attribute name="id" type="xsd:string"></xsd:attribute>
+                                    <xsd:attribute name="method" type="xsd:string"></xsd:attribute>
+                                    <xsd:attribute name="ref" type="xsd:string"></xsd:attribute>
+                                </xsd:complexType>
+                            </xsd:element>
+
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+
+                <xsd:element name="menu" minOccurs="0" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+
+                            <xsd:group ref="item"></xsd:group>
+
+                            <xsd:element name="item-grp" minOccurs="0" maxOccurs="unbounded">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+
+                                        <xsd:group ref="item"></xsd:group>
+
+                                    </xsd:sequence>
+                                    <xsd:attribute name="name" type="xsd:string" />
+                                    <xsd:attribute name="tip" type="xsd:string" />
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+
+            </xsd:all>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>
