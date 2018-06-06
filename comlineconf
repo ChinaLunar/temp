@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<comline>
+<comline xmlns="http://www.comline.com.cn" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.comline.com.cn comlineschema.xsd">
 
     <!-- 整合 Spring -->
     <spring path="classpath:springConfig/dispatcher-servlet.xml" />
@@ -9,14 +10,13 @@
 
     <!-- 命令参数：用于命令行模式 -->
     <parameter>
-        <param id="命令参数 id" abbr="命令参数名缩写" require="true/false，是否必选" tip="注释，只用于显示说明" default="默认值"
-            type="命令参数类型：int、double、string、boolean、file" />
+        <param id="命令参数 id" abbr="命令参数名缩写" require="true/false，是否必选" tip="注释，只用于显示说明" type="命令参数类型：int、double、string、boolean、file" />
 
         <!-- 命令参数组（不能嵌套） -->
         <param-grp>
-            <param id="命令参数 id" abbr="命令参数名缩写" require="true/false，是否必选" tip="注释，只用于显示说明" default="默认值"
+            <param id="命令参数 id" abbr="命令参数名缩写" require="true/false，是否必选" tip="注释，只用于显示说明"
                 type="命令参数类型：int、double、string、boolean、file" />
-            <param id="命令参数 id" abbr="命令参数名缩写" require="true/false，是否必选" tip="注释，只用于显示说明" default="默认值"
+            <param id="命令参数 id" abbr="命令参数名缩写" require="true/false，是否必选" tip="注释，只用于显示说明"
                 type="命令参数类型：int、double、string、boolean、file" />
         </param-grp>
     </parameter>
@@ -26,34 +26,36 @@
         <!-- 处理器1：要么是静态方法，要么类必须有无参构造器 -->
         <handler id="处理器 id" method="类名::方法">
             <!-- 定义处理器参数 -->
-            <property index="0" cmd="命令参数 id" />
-            <property index="1" cmd="命令参数 id" />
+            <property cmd="命令参数 id" default="默认取值，仅在交互模式下有效" />
+            <property cmd="命令参数 id" default="默认取值，仅在交互模式下有效" />
         </handler>
 
         <!-- 处理器2：如果有 Spring 支持就使用 ref 指明要调用的类 -->
         <handler id="处理器 id" method="实例方法" ref="如果有 Spring 可以使用 ref 指明要引用的 bean">
-            <property index="0" cmd="命令参数 id" />
-            <property index="1" cmd="命令参数 id" />
+            <property cmd="命令参数 id" default="默认取值，仅在交互模式下有效" />
+            <property cmd="命令参数 id" default="默认取值，仅在交互模式下有效" />
         </handler>
 
         <!-- 处理器3：不基于参数构建处理器 -->
         <handler id="处理器 id" method="类名::方法">
             <!-- 定义处理器参数 -->
-            <property index="0" default="默认值" type="参数类型：int、double、string、boolean、file" tip="注释，只用于显示说明" />
-            <property index="1" default="默认值" type="参数类型：int、double、string、boolean、file" tip="注释，只用于显示说明" />
+            <property type="参数类型：int、double、string、boolean、file" default="默认取值，仅在交互模式下有效" tip="注释，只用于显示说明" />
+            <property type="参数类型：int、double、string、boolean、file" default="默认取值，仅在交互模式下有效" tip="注释，只用于显示说明" />
         </handler>
     </handlers>
 
     <!-- 菜单定义：用于交互模式 -->
     <menu>
         <!-- 菜单项 -->
-        <item index="0" name="菜单项名称，只用于显示说明" tip="注释，只用于显示说明" handler="处理器 id" />
+        <item name="菜单项名称，只用于显示说明" tip="注释，只用于显示说明" handler="处理器 id" />
 
         <!-- 菜单项组 -->
-        <item-grp index="1" name="calculate taketime" explain="注释">
+        <item-grp name="calculate taketime" tip="注释">
             <!-- 空菜单项没有任何相应，如果选中，仅输出提示信息，然后返回上级菜单 -->
-            <item index="0" name="菜单项名称，只用于显示说明" tip="注释，只用于显示说明" handler="处理器 id" />
+            <item name="菜单项名称，只用于显示说明" tip="注释，只用于显示说明" handler="处理器 id" />
         </item-grp>
     </menu>
 
 </comline>
+
+
