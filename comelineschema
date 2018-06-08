@@ -2,15 +2,32 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.comline.com.cn" xmlns="http://www.comline.com.cn"
     elementFormDefault="qualified">
 
+    <xsd:simpleType name="classtype">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="int" />
+            <xsd:enumeration value="double" />
+            <xsd:enumeration value="string" />
+            <xsd:enumeration value="boolean" />
+            <xsd:enumeration value="file" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:simpleType name="idabbr">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[a-zA-Z]([a-zA-Z0-9])*" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+
     <xsd:group name="param">
         <xsd:sequence>
             <xsd:element name="param" minOccurs="0" maxOccurs="unbounded">
                 <xsd:complexType>
-                    <xsd:attribute name="id" type="xsd:string" />
-                    <xsd:attribute name="abbr" type="xsd:string" />
-                    <xsd:attribute name="require" type="xsd:string" />
+                    <xsd:attribute name="id" type="idabbr" />
+                    <xsd:attribute name="abbr" type="idabbr" />
+                    <xsd:attribute name="require" type="xsd:boolean" />
                     <xsd:attribute name="tip" type="xsd:string" />
-                    <xsd:attribute name="type" type="xsd:string" />
+                    <xsd:attribute name="type" type="classtype" />
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
@@ -22,7 +39,7 @@
                 <xsd:complexType>
                     <xsd:attribute name="name" type="xsd:string" />
                     <xsd:attribute name="tip" type="xsd:string" />
-                    <xsd:attribute name="handler" type="xsd:string" />
+                    <xsd:attribute name="handler" type="idabbr" />
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
@@ -69,8 +86,8 @@
                                         <xsd:element name="property" minOccurs="0" maxOccurs="unbounded">
                                             <xsd:complexType>
 
-                                                <xsd:attribute name="cmd" type="xsd:string"></xsd:attribute>
-                                                <xsd:attribute name="type" type="xsd:string"></xsd:attribute>
+                                                <xsd:attribute name="cmd" type="idabbr"></xsd:attribute>
+                                                <xsd:attribute name="type" type="classtype"></xsd:attribute>
                                                 <xsd:attribute name="tip" type="xsd:string"></xsd:attribute>
                                                 <xsd:attribute name="default" type="xsd:string"></xsd:attribute>
 
@@ -78,7 +95,7 @@
                                         </xsd:element>
 
                                     </xsd:sequence>
-                                    <xsd:attribute name="id" type="xsd:string"></xsd:attribute>
+                                    <xsd:attribute name="id" type="idabbr"></xsd:attribute>
                                     <xsd:attribute name="method" type="xsd:string"></xsd:attribute>
                                     <xsd:attribute name="ref" type="xsd:string"></xsd:attribute>
                                 </xsd:complexType>
@@ -97,9 +114,7 @@
                             <xsd:element name="item-grp" minOccurs="0" maxOccurs="unbounded">
                                 <xsd:complexType>
                                     <xsd:sequence>
-
                                         <xsd:group ref="item"></xsd:group>
-
                                     </xsd:sequence>
                                     <xsd:attribute name="name" type="xsd:string" />
                                     <xsd:attribute name="tip" type="xsd:string" />
