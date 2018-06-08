@@ -10,52 +10,51 @@
 
     <!-- 命令参数：用于命令行模式 -->
     <parameter>
-        <param id="命令参数 id" abbr="命令参数名缩写" require="true/false，是否必选" tip="注释，只用于显示说明" type="命令参数类型：int、double、string、boolean、file" />
+        <param id="id" abbr="abbr" require="true" tip="注释，只用于显示说明" type="int" />
 
         <!-- 命令参数组（不能嵌套） -->
         <param-grp>
-            <param id="命令参数 id" abbr="命令参数名缩写" require="true/false，是否必选" tip="注释，只用于显示说明"
-                type="命令参数类型：int、double、string、boolean、file" />
-            <param id="命令参数 id" abbr="命令参数名缩写" require="true/false，是否必选" tip="注释，只用于显示说明"
-                type="命令参数类型：int、double、string、boolean、file" />
+            <param id="id" abbr="abbr" require="true" tip="注释，只用于显示说明" type="boolean" />
+            <param id="id" abbr="abbr" require="true" tip="注释，只用于显示说明" type="string" />
         </param-grp>
     </parameter>
 
     <!-- 处理器定义 -->
     <handlers>
         <!-- 处理器1：要么是静态方法，要么类必须有无参构造器 -->
-        <handler id="处理器 id" method="类名::方法">
+        <handler id="id" method="类名::方法">
             <!-- 定义处理器参数 -->
-            <property cmd="命令参数 id" default="默认取值，仅在交互模式下有效" />
-            <property cmd="命令参数 id" default="默认取值，仅在交互模式下有效" />
+            <property cmd="id" default="默认取值，仅在交互模式下有效" />
+            <property cmd="id" default="默认取值，仅在交互模式下有效" />
         </handler>
 
         <!-- 处理器2：如果有 Spring 支持就使用 ref 指明要调用的类 -->
-        <handler id="处理器 id" method="实例方法" ref="如果有 Spring 可以使用 ref 指明要引用的 bean">
-            <property cmd="命令参数 id" default="默认取值，仅在交互模式下有效" />
-            <property cmd="命令参数 id" default="默认取值，仅在交互模式下有效" />
+        <handler id="id" method="实例方法" ref="如果有 Spring 可以使用 ref 指明要引用的 bean">
+            <property cmd="id" default="默认取值，仅在交互模式下有效" />
+            <property cmd="id" default="默认取值，仅在交互模式下有效" />
         </handler>
 
         <!-- 处理器3：不基于参数构建处理器 -->
-        <handler id="处理器 id" method="类名::方法">
+        <handler id="id" method="类名::方法">
             <!-- 定义处理器参数 -->
-            <property type="参数类型：int、double、string、boolean、file" default="默认取值，仅在交互模式下有效" tip="注释，只用于显示说明" />
-            <property type="参数类型：int、double、string、boolean、file" default="默认取值，仅在交互模式下有效" tip="注释，只用于显示说明" />
+            <property type="int" default="默认取值，仅在交互模式下有效" tip="注释，只用于显示说明" />
+            <property type="double" default="默认取值，仅在交互模式下有效" tip="注释，只用于显示说明" />
         </handler>
     </handlers>
 
     <!-- 菜单定义：用于交互模式 -->
     <menu>
         <!-- 菜单项 -->
-        <item name="菜单项名称，只用于显示说明" tip="注释，只用于显示说明" handler="处理器 id" />
+        <item name="菜单项名称，只用于显示说明" tip="注释，只用于显示说明" handler="id" />
 
         <!-- 菜单项组 -->
-        <item-grp name="calculate taketime" tip="注释">
+        <item-grp name="菜单组名称" tip="注释">
             <!-- 空菜单项没有任何相应，如果选中，仅输出提示信息，然后返回上级菜单 -->
-            <item name="菜单项名称，只用于显示说明" tip="注释，只用于显示说明" handler="处理器 id" />
+            <item name="菜单项名称，只用于显示说明" tip="注释，只用于显示说明" handler="id" />
+
+            <!-- 嵌套菜单 <item-grp name="菜单组名称" tip="注释"> <item name="菜单项名称，只用于显示说明" tip="注释，只用于显示说明" handler="id" /> </item-grp> -->
         </item-grp>
     </menu>
 
 </comline>
-
 
