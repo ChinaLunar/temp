@@ -48,11 +48,15 @@
         <item name="菜单项名称，只用于显示说明" tip="注释，只用于显示说明" handler="id" />
 
         <!-- 菜单项组 -->
-        <item-grp name="菜单组名称" tip="注释">
+        <item-grp name="菜单组名称，只用于显示说明" tip="注释">
             <!-- 空菜单项没有任何相应，如果选中，仅输出提示信息，然后返回上级菜单 -->
             <item name="菜单项名称，只用于显示说明" tip="注释，只用于显示说明" handler="id" />
 
-            <!-- 嵌套菜单 <item-grp name="菜单组名称" tip="注释"> <item name="菜单项名称，只用于显示说明" tip="注释，只用于显示说明" handler="id" /> </item-grp> -->
+            <!-- 嵌套菜单 -->
+            <item-grp name="菜单组名称，只用于显示说明" tip="注释">
+                <!-- 空菜单项没有任何相应，如果选中，仅输出提示信息，然后返回上级菜单 -->
+                <item name="菜单项名称，只用于显示说明" tip="注释，只用于显示说明" handler="id" />
+            </item-grp>
         </item-grp>
     </menu>
 
